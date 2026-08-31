@@ -95,4 +95,11 @@ python run_bench.py               # score against the corpus (see ScannerTruth P
 python realrecall.py v2.json      # real vs nominal recall from a run
 ```
 
+## Independence
+
+This scanner stays **free and open source, permanently**. It exists as the first subject of the
+[ScannerTruth](https://github.com/halobartku/scannertruth) benchmark, not as a product. You cannot
+sell a scanner and credibly rank scanners. See
+[COMMITMENTS.md](https://github.com/halobartku/scannertruth/blob/main/COMMITMENTS.md).
+
 MIT. Part of [Forge](https://github.com/halobartku).
