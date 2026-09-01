@@ -304,7 +304,7 @@ def test_published_numbers_are_derived():
     """
     readme = _readme()
 
-    p = os.path.join(HERE, "v3-strict.json")
+    p = os.path.join(HERE, "results", "v3-strict.json")
     if not os.path.exists(p):
         check("v3-strict.json is committed", False)
         return
@@ -322,14 +322,14 @@ def test_published_numbers_are_derived():
           "**%d / %d**" % (nominal, len(rows)) in readme,
           "computed %d/%d" % (nominal, len(rows)))
 
-    p = os.path.join(HERE, "bench2-strict.json")
+    p = os.path.join(HERE, "results", "bench2-strict.json")
     if os.path.exists(p):
         doc = json.load(io.open(p, encoding="utf-8"))
         check("README corpus-2 real recall matches bench2-strict.json",
               "**0 / %d**" % doc["scored"] in readme and doc["real"] == 0,
               "computed %d/%d" % (doc["real"], doc["scored"]))
 
-    p = os.path.join(HERE, "noise-strict.json")
+    p = os.path.join(HERE, "results", "noise-strict.json")
     if os.path.exists(p):
         doc = json.load(io.open(p, encoding="utf-8"))
         files = sum(c["files"] for c in doc["clean"])

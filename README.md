@@ -82,7 +82,7 @@ excluded as an invalid pair by the corpus itself and one is not built.
 | broad | 3 / 16 | **0 / 16** |
 | all | 4 / 16 | **0 / 16** |
 
-**Zero.** Every case was analysed - `bench2-strict.json.log` has one row per case per variant
+**Zero.** Every case was analysed - `results/bench2-strict.json.log` has one row per case per variant
 proving it, so these are measured zeroes and not silent failures to run. Two cases produce a
 nominal hit that fires on the fixed variant as well, which is the exact failure this project exists
 to expose, and it is ours:
@@ -245,7 +245,7 @@ python noise.py --corpus1 ../sealevel-attacks/programs \
                 --clean ../program-examples --sample 40
 ```
 
-The JSON each of those writes is committed, so every number on this page recomputes from raw data
+The JSON each of those writes is committed under `results/`, so every number on this page recomputes from raw data
 in this repository rather than being typed.
 
 ---
@@ -264,6 +264,7 @@ realrecall.py  real versus nominal recall from a run
 RULES.md       every rule: class, source, fixtures, score. The record that matters
 TRIAGE.md      the forty findings that produced the false-positive number, judged one by one
 tests/fixtures 60 hand-written .rs files, never compiled
+results/       the committed measurements; results/README.md says which command wrote each
 ```
 
 ---
