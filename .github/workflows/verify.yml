@@ -1,0 +1,48 @@
+name: verify
+
+# The scanner had 369 checks and nothing that ran them on push. A test suite nobody runs on a
+# machine the author does not control is a claim, not evidence, and this project's whole argument
+# is the difference between those two. Mirrors the benchmark's workflow deliberately: same shape,
+# same operating systems, so a reader comparing the two repositories sees one discipline.
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 6 * * 1"
+
+jobs:
+  selfcheck:
+    # Windows earns its place here for the same reason it does in the benchmark: a finding is
+    # located by a path, and a backslash path must produce the same verdict as a forward-slash
+    # one. 3.9 is the floor the README promises and 3.12 the ceiling, so version drift shows up
+    # here rather than in somebody's terminal.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.11"]
+        include:
+          - os: ubuntu-latest
+            python-version: "3.9"
+          - os: ubuntu-latest
+            python-version: "3.12"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Test suite, one fixture per rule
+        run: python run_tests.py
+
+      # The README tells a stranger to run exactly this against a directory of Rust sources. On
+      # 2026-09-01 it turned out nobody had ever run the documented command, including the author,
+      # because the __main__ block sat above the section that installs the v2 rules. A README
+      # command that has never been executed is a defect with a green suite behind it.
+      - name: The command the README documents must actually run
+        run: |
+          python cli.py --version
+          python cli.py --list-rules
+          python cli.py tests --format json --fail-on none
