@@ -19,7 +19,7 @@ the benchmark that scores it.** That is a conflict and there is no way to make i
 project handles it by being explicit rather than by pretending:
 
 1. **No rule here was written by reading a corpus case.** Every rule was written from a published
-   description of the vulnerability CLASS, cited on the rule in `scanner.py`, then tested against a
+   description of the vulnerability CLASS, cited on the rule in `rules_v3.py`, then tested against a
    vulnerable and a fixed fixture invented for this repository, and only then measured. The record
    is [`RULES.md`](RULES.md): class, source, fixtures, and score, including every zero.
 2. **Rules that score zero stay, and say zero.** SOL-021, SOL-023, SOL-024 and SOL-026 detect
@@ -253,7 +253,13 @@ in this repository rather than being typed.
 ## Layout
 
 ```
-scanner.py     the rules and the engine
+scanner.py     the entry point; re-exports the six modules below so `import scanner` still works
+model.py       Finding, the rule tuple, and the project index the cross-file rules read
+rules_v1.py    the original construct-presence rules; every one is still live
+rules_v2.py    guard-aware replacements for some v1 ids, plus SOL-017 to SOL-019
+rules_v3.py    the eleven v3 classes; its RULES is the final list, in output order
+profiles.py    categories, kinds, profiles, select_rules
+engine.py      comment stripping, scan_text, scan_repo, scan_file
 guards.py      the guard families: what a correct program does, which is what a rule looks for
 mapping.py     rule to corpus class, pre-registered, one copy
 cli.py         the command line

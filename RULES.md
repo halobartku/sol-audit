@@ -6,7 +6,7 @@ the vulnerability class it was written from, the hand-written fixtures it was te
 any corpus was touched, and the score it got afterwards, including the zeroes.
 
 **The constraint.** No rule in this repository was written by reading a corpus case and matching its
-text. Each was written from a published description of the CLASS, cited on the rule in `scanner.py`
+text. Each was written from a published description of the CLASS, cited on the rule in `rules_v3.py`
 and repeated below, then tested against a vulnerable and a fixed fixture invented for this
 repository, and only then measured. A rule that scored zero is still here and still says zero.
 
