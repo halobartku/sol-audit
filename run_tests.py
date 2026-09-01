@@ -22,6 +22,7 @@ these tests, and that is a real weakness of the suite.
 import io
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -259,10 +260,109 @@ def test_cli():
               all(r.get("status") == "ok" for r in rows))
 
 
+# ---------------------------------------------------------------- published numbers
+STDLIB_ONLY = ("scanner.py", "guards.py", "mapping.py", "cli.py", "run_tests.py",
+               "noise.py", "run_bench.py", "run_bench2.py", "realrecall.py")
+THIRD_PARTY = re.compile(
+    r"^\s*(?:import|from)\s+(?!__future__)(pytest|numpy|requests|yaml|toml|click|rich|"
+    r"tree_sitter|regex|attrs|pydantic|colorama|tabulate)\b", re.M)
+
+
+def test_stdlib_only():
+    """The install story is 'Python 3 and nothing else'. Assert it rather than claim it."""
+    here = os.listdir(HERE)
+    for name in ("requirements.txt", "setup.py", "pyproject.toml", "Pipfile", "poetry.lock"):
+        check("no %s" % name, name not in here)
+    for mod in STDLIB_ONLY:
+        p = os.path.join(HERE, mod)
+        if not os.path.exists(p):
+            check("%s exists" % mod, False)
+            continue
+        src = io.open(p, encoding="utf-8").read()
+        check("%s imports nothing outside the standard library" % mod,
+              not THIRD_PARTY.search(src))
+    # and the real proof: every one of them imports cleanly with nothing installed
+    for mod in STDLIB_ONLY:
+        if mod in ("run_bench.py", "run_bench2.py", "realrecall.py"):
+            continue   # scripts with side effects at import; covered by the source check above
+        r = subprocess.run([sys.executable, "-c", "import " + mod[:-3]],
+                           capture_output=True, text=True, cwd=HERE)
+        check("%s imports cleanly" % mod, r.returncode == 0, r.stderr.strip()[:120])
+
+
+def _readme():
+    return io.open(os.path.join(HERE, "README.md"), encoding="utf-8").read()
+
+
+def test_published_numbers_are_derived():
+    """Re-derive every headline in README.md from the committed JSON.
+
+    ScannerTruth's own rule, applied to us before anyone else: never type a count a machine can
+    compute. Both times that project's front page was wrong the arithmetic was fine and the
+    freshness was not. If a measurement is rerun and a number moves, this fails and the README
+    has to be corrected before anything can be committed.
+    """
+    readme = _readme()
+
+    p = os.path.join(HERE, "v3-strict.json")
+    if not os.path.exists(p):
+        check("v3-strict.json is committed", False)
+        return
+    rows = json.load(io.open(p, encoding="utf-8"))
+
+    def on(e, v):
+        return (e.get(v) or {}).get("on_target", 0)
+    nominal = sum(1 for e in rows if on(e, "insecure") > 0)
+    real = sum(1 for e in rows if on(e, "insecure") > 0
+               and on(e, "secure") == 0 and on(e, "recommended") == 0)
+    check("README corpus-1 real recall matches v3-strict.json",
+          "**%d / %d**" % (real, len(rows)) in readme,
+          "computed %d/%d" % (real, len(rows)))
+    check("README corpus-1 nominal recall matches v3-strict.json",
+          "**%d / %d**" % (nominal, len(rows)) in readme,
+          "computed %d/%d" % (nominal, len(rows)))
+
+    p = os.path.join(HERE, "bench2-strict.json")
+    if os.path.exists(p):
+        doc = json.load(io.open(p, encoding="utf-8"))
+        check("README corpus-2 real recall matches bench2-strict.json",
+              "**0 / %d**" % doc["scored"] in readme and doc["real"] == 0,
+              "computed %d/%d" % (doc["real"], doc["scored"]))
+
+    p = os.path.join(HERE, "noise-strict.json")
+    if os.path.exists(p):
+        doc = json.load(io.open(p, encoding="utf-8"))
+        files = sum(c["files"] for c in doc["clean"])
+        lines = sum(c["lines"] for c in doc["clean"])
+        found = sum(c["findings"] for c in doc["clean"])
+        check("README clean-corpus file count matches noise-strict.json",
+              "%d `.rs` files" % files in readme, "computed %d" % files)
+        check("README clean-corpus line count matches noise-strict.json",
+              format(lines, ",") in readme, "computed %s" % format(lines, ","))
+        check("README strict finding count matches noise-strict.json",
+              "| strict (default) | %d |" % found in readme, "computed %d" % found)
+        fx = doc["fixed_summary"]
+        check("README fixed-variant false positives match noise-strict.json",
+              "| strict (default) | %d | %d | %d | **%d** | %d of %d |"
+              % (fx["variants"], fx["files"], fx["findings"], fx["same_class_fp"],
+                 fx["variants_flagged"], fx["variants"]) in readme,
+              "computed %s" % fx)
+
+    p = os.path.join(HERE, "TRIAGE.md")
+    if os.path.exists(p):
+        t = io.open(p, encoding="utf-8").read()
+        for line in t.splitlines():
+            if line.startswith("| actionable |"):
+                n = line.split("|")[2].strip()
+                check("README triage count agrees with TRIAGE.md",
+                      "**%s actionable" % n in readme, "TRIAGE says %s" % n)
+
+
 def main():
     for t in (test_guards, test_fixtures, test_fixture_hygiene, test_comment_stripping,
               test_suppression, test_rule_selection, test_every_rule_has_metadata,
-              test_project_index, test_scan_repo_shape, test_cli):
+              test_project_index, test_scan_repo_shape, test_stdlib_only,
+              test_published_numbers_are_derived, test_cli):
         t()
     total = len(PASS) + len(FAIL)
     print("\n%d checks, %d passed, %d failed" % (total, len(PASS), len(FAIL)))
