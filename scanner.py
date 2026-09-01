@@ -39,6 +39,11 @@ def _suppressed(lines, i):
 def _make(rule_id, title, sev, cwe, fix, fn):
     return (rule_id, title, sev, cwe, fix, fn)
 
+# The program writing bytes into an account it owns, as opposed to only forwarding CPIs.
+_STATE_WRITE = re.compile(
+    r"\bserialize\s*\(|\btry_borrow_mut_data\s*\(|\bdata\.borrow_mut\s*\(|"
+    r"\b\w+::pack\s*\(|\bpack_into_slice\s*\(")
+
 def rule_missing_signer(lines, rel):
     """Anchor instruction takes UncheckedAccount / AccountInfo without Signer semantics."""
     out = []
@@ -83,11 +88,24 @@ def rule_invoke_no_owner_check(lines, rel):
     return [i for i, l in enumerate(lines) if re.search(r"\binvoke(_signed)?\s*\(", l)]
 
 def rule_next_account_no_signer(lines, rel):
-    """next_account_info used but no is_signer validation in file (missing signer check)."""
-    nai = [i for i, l in enumerate(lines) if "next_account_info" in l]
+    """next_account_info used but no is_signer validation in file (missing signer check).
+
+    Matches a CALL, `next_account_info(`, not the bare name. Matching the name meant the finding
+    was often reported on the `use solana_program::account_info::{next_account_info, ..}` import,
+    which is a line a reader can do nothing with. Two of the forty findings in the triage sample
+    published in README.md pointed at an import.
+    """
+    nai = [i for i, l in enumerate(lines) if re.search(r"next_account_info\s*\(", l)]
     if not nai:
         return []
     if any("is_signer" in l for l in lines):
+        return []
+    # Only where the program writes its OWN account state. Neodyme's pitfall 2 is about
+    # instructions "that should be restricted": if all the file does is forward CPIs, the callee
+    # enforces its own authorization and the runtime enforces the payer's signature, so demanding
+    # an is_signer check here is advice with nothing behind it. Five of the forty findings in the
+    # second triage sample were native token-creation handlers of exactly that shape.
+    if not any(_STATE_WRITE.search(l) for l in lines):
         return []
     return nai[:2]  # point at first usages, not every one
 
@@ -350,14 +368,90 @@ from guards import missing as _missing  # noqa: E402
 _AUTHORITY_FIELD = re.compile(
     r"\b(authority|owner|admin|signer|user|payer)\s*:\s*(AccountInfo|UncheckedAccount)\s*<")
 _RAW_ACCOUNTINFO = re.compile(r":\s*(AccountInfo|UncheckedAccount)\s*<")
-_INVOKE = re.compile(r"\binvoke(_signed)?\s*\(")
+# A free-function `invoke(&ix, ..)`, NOT a method call `Something { .. }.invoke()`. The method
+# form belongs to a typed instruction builder (pinocchio_system::CreateAccount, the spl helpers)
+# whose program id is a constant inside the builder, so there is nothing for the caller to check.
+# The earlier pattern matched both, and the method form was a large share of the measured noise.
+_INVOKE = re.compile(r"(?<![.\w])invoke(_signed)?\s*\(")
+
+# The CPI target at THIS site is a compile-time constant, so no runtime comparison is possible or
+# needed. Established by reading forty findings on third-party example code, not on a corpus case:
+# `invoke(&system_instruction::create_account(..), ..)` cannot invoke anything but the system
+# program, and telling somebody to validate it is advice they cannot act on.
+_CONST_CPI_TARGET = re.compile(
+    r"\b(system_instruction|solana_system_interface::instruction|"
+    r"system_program::instruction)::"
+    r"|program_id:\s*&?\s*[A-Z][A-Z0-9_]{3,}\b"
+    r"|&\s*\w+::ID\b"
+    r"|\b[a-z_]+::ID\b")
+
+
+# The SPL token family's instruction builders take the program id as their FIRST argument, by
+# documented convention: spl_token::instruction::transfer(token_program_id, ..). So a call to one
+# of these is exactly the case where the CPI target IS caller-supplied and does need checking.
+# Everything else on this list hardcodes its own program id inside the builder.
+_CALLER_SUPPLIED_TARGET = re.compile(
+    r"\b(spl_token|spl_token_2022|spl_token_interface|token_instruction|"
+    r"token_2022_instruction|spl_token_client)\w*::")
+_CONST_BUILDER = re.compile(
+    r"\b(system_instruction|solana_system_interface::instruction|system_program::instruction|"
+    r"associated_token_account_instruction|spl_associated_token_account\w*|"
+    r"pinocchio_system|pinocchio_token\w*)::"
+    # the same builders imported bare, which is how solana-program-library writes them
+    r"|\b(create_account|create_account_with_seed|allocate|assign|advance_nonce_account)\s*\(")
+_LET_INSTRUCTION = re.compile(r"\blet\s+(\w+)\s*=\s*$|\blet\s+(\w+)\s*=\s*\S")
+
+
+def _window(lines, i, before=0, after=10):
+    """The raw text around line i. Unlike _ctx it is NOT truncated to 220 characters.
+
+    _ctx exists to give a rule a short blob to keyword-search. Truncating it at 220 characters is
+    fine for that and wrong here: an `invoke(` on its own line puts the instruction expression
+    below it, and the truncation was cutting the window off before it reached the line that says
+    which program is being called. Five of the forty findings in the first triage sample were this
+    bug and not a rule error.
+    """
+    return "\n".join(lines[max(0, i - before):i + after + 1])
+
+
+def _target_is_constant(lines, i):
+    """True if the instruction invoked at line i is built against a constant program id.
+
+    Established by reading forty findings on third-party example code, not on a corpus case:
+    `invoke(&system_instruction::create_account(..), ..)` cannot invoke anything but the system
+    program, and telling somebody to validate the target is advice they cannot act on.
+    """
+    here = _window(lines, i, 0, 10)
+    if _CALLER_SUPPLIED_TARGET.search(here):
+        return False
+    if _CONST_CPI_TARGET.search(here) or _CONST_BUILDER.search(here):
+        return True
+    # `invoke(&ix, ..)` where ix was bound earlier: judge the binding instead.
+    m = re.search(r"invoke(?:_signed)?\s*\(\s*&\s*(\w+)\s*,", here)
+    if m:
+        name = m.group(1)
+        back = "\n".join(lines[max(0, i - 14):i])
+        b = re.search(r"\blet\s+" + re.escape(name) + r"\s*=", back)
+        if b:
+            expr = back[b.start():]
+            if _CALLER_SUPPLIED_TARGET.search(expr):
+                return False
+            if _CONST_CPI_TARGET.search(expr) or _CONST_BUILDER.search(expr):
+                return True
+    return False
 _MUT_TYPED = re.compile(r"#\[account\([^)]*\bmut\b[^)]*\)\]\s*\n?\s*pub\s+(\w+)\s*:\s*Account\s*<\s*'\w+\s*,\s*(\w+)")
 _SYSVAR_FIELD = re.compile(r"\b(rent|clock|instructions|slot_hashes|epoch_schedule)\s*:\s*(AccountInfo|UncheckedAccount)\s*<")
 
 
+# Emptying an account, not merely debiting it. `**source.try_borrow_mut_lamports()? -= 5` moves
+# five lamports and leaves the account alive; it is not a close and there is nothing to zero.
+# The close pattern is setting the balance to zero, or moving the source's ENTIRE balance out.
+# One of the forty findings in the second triage sample was a two-line lamport transfer example.
 _LAMPORT_DRAIN = re.compile(
-    r"\blamports\s*\.\s*borrow_mut\s*\(\s*\)\s*[-+]?=|"
-    r"\btry_borrow_mut_lamports\s*\(\s*\)\s*\??\s*[-+]?=")
+    r"\blamports\s*\.\s*borrow_mut\s*\(\s*\)\s*=\s*0|"
+    r"\btry_borrow_mut_lamports\s*\(\s*\)\s*\??\s*=\s*0|"
+    r"\blamports\s*\.\s*borrow_mut\s*\(\s*\)\s*[-+]?=[^;]*\.lamports\s*\(\s*\)|"
+    r"\btry_borrow_mut_lamports\s*\(\s*\)\s*\??\s*[-+]?=[^;]*\.lamports\s*\(\s*\)")
 
 
 def _text(lines):
@@ -390,7 +484,8 @@ def rule_arbitrary_cpi_v2(lines, rel):
     t = _text(lines)
     if not _missing(t, "program_id"):
         return []
-    return [i for i, l in enumerate(lines) if _INVOKE.search(l)]
+    return [i for i, l in enumerate(lines)
+            if _INVOKE.search(l) and not _target_is_constant(lines, i)]
 
 
 def rule_duplicate_mutable_v2(lines, rel):
@@ -436,7 +531,8 @@ def rule_cpi_no_owner_v2(lines, rel):
     t = _text(lines)
     if not (_missing(t, "owner") and _missing(t, "program_id")):
         return []
-    return [i for i, l in enumerate(lines) if _INVOKE.search(l)]
+    return [i for i, l in enumerate(lines)
+            if _INVOKE.search(l) and not _target_is_constant(lines, i)]
 
 
 _V2_OVERRIDE = {
@@ -531,7 +627,19 @@ _INTROSPECT = re.compile(
     r"\bload_current_index(_checked)?\s*\(")
 _INIT_FN_NAME = re.compile(r"\bfn\s+(\w+)\s*[<(]")
 _REMAINING = re.compile(r"\bremaining_accounts\b")
+_CREATES_ACCOUNT = re.compile(r"\bcreate_account\s*\(|\bCreateAccount\b|\bcreate_pda_account\s*\(")
 _NATIVE_ENTRY = re.compile(r"\bnext_account_info\s*\(")
+
+# Deserialising the INSTRUCTION payload is not deserialising an account, and neither type cosplay
+# nor a missing owner check applies to it: instruction data has no owner and no discriminator to
+# confuse. The first version tested for "data" anywhere in the surrounding context, which matched
+# the identifier `instruction_data`, so the scanner told people to add an owner check to a byte
+# slice that arrived in the transaction. Found by reading third-party code, not a corpus case.
+_ACCOUNT_DATA_SOURCE = re.compile(r"borrow|\.data\b|try_borrow_data|account_data")
+
+
+def _reads_account_data(line):
+    return bool(_ACCOUNT_DATA_SOURCE.search(line)) and "instruction_data" not in line
 
 
 def rule_noncanonical_bump_v3(lines, rel):
@@ -587,7 +695,7 @@ def rule_type_cosplay_v3(lines, rel):
         return []
     out = []
     for i, l in enumerate(lines):
-        if _MANUAL_DESER.search(l) and re.search(r"data|borrow", _ctx(lines, i, 1)):
+        if _MANUAL_DESER.search(l) and _reads_account_data(l):
             out.append(i)
     return out
 
@@ -694,8 +802,22 @@ def rule_reinitialization_v3(lines, rel):
     out = []
     for i, l in enumerate(lines):
         m = _INIT_FN_NAME.search(l)
-        if m and re.match(r"(process_)?init", m.group(1)):
-            out.append(i)
+        if not (m and re.match(r"(process_)?init", m.group(1))):
+            continue
+        # If the handler CREATES the account, the system program refuses to create one that
+        # already holds lamports or data, so creation is itself the re-initialization guard and
+        # there is nothing to add. Only a handler that writes into an account somebody else
+        # supplied can be re-run on live state.
+        body = _window(lines, i, 0, 30)
+        if _CREATES_ACCOUNT.search(body):
+            continue
+        # `pub fn init_reserve(program_id: Pubkey, ..) -> Instruction` is a CLIENT-SIDE builder
+        # that assembles an Instruction for a caller to send. It initialises nothing and has no
+        # account to guard. Four of the forty findings in the second triage sample were these,
+        # all of them in an instruction.rs. A handler writes account bytes; a builder does not.
+        if not _STATE_WRITE.search(body):
+            continue
+        out.append(i)
     return out
 
 
@@ -728,7 +850,7 @@ def rule_native_owner_check_v3(lines, rel):
         return []
     out = []
     for i, l in enumerate(lines):
-        if _MANUAL_DESER.search(l) and re.search(r"data|borrow", _ctx(lines, i, 1)):
+        if _MANUAL_DESER.search(l) and _reads_account_data(l):
             out.append(i)
     return out
 
@@ -834,13 +956,21 @@ META = {
     "SOL-030": ("authorization", "guarded"),
 }
 
-# Profiles select rules by `kind`. `strict` is the guard-aware architecture on its own and is the
-# lowest-noise thing this scanner can do; `all` adds the heuristics. See README for the measured
-# noise of each.
+# Profiles select rules by `kind`.
+#
+# `strict` is the DEFAULT, and that is a measured choice rather than a taste. On the teaching
+# corpus all three profiles reach the same real recall, 7 of 11; on 460 files of third-party
+# example code `strict` produces 501 findings where `all` produces 962. Same detections, half the
+# noise, so the extra rules buy nothing and cost the reader a thousand lines. The numbers are in
+# README.md and were produced by noise.py, which anyone can rerun.
+#
+# `broad` adds the shape rules: unchecked arithmetic, unwrap, unsafe blocks. They are correct and
+# worth reading once on a codebase you own; they are lint, not detections, and on SPL a single one
+# of them (SOL-009) is half of everything the scanner says. `all` adds the heuristics on top.
 PROFILES = {
-    "strict":  ("guarded",),
-    "default": ("guarded", "shape"),
-    "all":     ("guarded", "shape", "heuristic"),
+    "strict": ("guarded",),
+    "broad":  ("guarded", "shape"),
+    "all":    ("guarded", "shape", "heuristic"),
 }
 
 
@@ -852,7 +982,7 @@ def kind_of(rule_id):
     return META.get(rule_id, ("hygiene", "shape"))[1]
 
 
-def select_rules(profile="default", categories=None, exclude_categories=None,
+def select_rules(profile="strict", categories=None, exclude_categories=None,
                  rules=None, exclude_rules=None):
     """The rule list a run should use.
 

@@ -112,7 +112,7 @@ def main():
                     help="sealevel-attacks programs/ directory")
     ap.add_argument("--corpus2", default=os.environ.get("CORPUS2"),
                     help="scannertruth corpus2/ directory")
-    ap.add_argument("--profile", default="default", choices=sorted(scanner.PROFILES))
+    ap.add_argument("--profile", default="strict", choices=sorted(scanner.PROFILES))
     ap.add_argument("--sample", type=int, default=30,
                     help="how many clean-corpus findings to print for manual triage")
     ap.add_argument("--out", help="write the full result as JSON here")

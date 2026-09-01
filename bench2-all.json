@@ -13,24 +13,20 @@
    ],
    "insecure": {
     "files": 1,
-    "total": 9,
+    "total": 7,
     "on_target": 0,
     "on_target_lines": [],
     "rules": [
-     "SOL-004",
-     "SOL-006",
-     "SOL-010"
+     "SOL-004"
     ]
    },
    "secure": {
     "files": 1,
-    "total": 9,
+    "total": 7,
     "on_target": 0,
     "on_target_lines": [],
     "rules": [
-     "SOL-004",
-     "SOL-006",
-     "SOL-010"
+     "SOL-004"
     ]
    }
   },
@@ -318,9 +314,578 @@
     "on_target_lines": [],
     "rules": []
    }
+  },
+  {
+   "name": "anchor-program-system",
+   "class": "program-account-validation",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\anchor-program-system",
+   "mapped_rules": [
+    "SOL-002",
+    "SOL-010"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 0,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": []
+   },
+   "secure": {
+    "files": 1,
+    "total": 2,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-009"
+    ]
+   }
+  },
+  {
+   "name": "solido-deposit-reserve-account",
+   "class": "pda-derived-address-validation",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\solido-deposit-reserve-account",
+   "mapped_rules": [
+    "SOL-011",
+    "SOL-016",
+    "SOL-020"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 38,
+    "on_target": 18,
+    "on_target_lines": [
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      247
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      260
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      262
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      278
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      320
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      345
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      348
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      357
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      365
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      413
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      417
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      432
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      485
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      489
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      606
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      607
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      610
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      783
+     ]
+    ],
+    "rules": [
+     "SOL-004",
+     "SOL-006",
+     "SOL-009",
+     "SOL-010",
+     "SOL-012",
+     "SOL-016",
+     "SOL-025"
+    ]
+   },
+   "secure": {
+    "files": 1,
+    "total": 38,
+    "on_target": 18,
+    "on_target_lines": [
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      248
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      261
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      263
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      279
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      321
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      346
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      349
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      358
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      366
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      414
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      418
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      433
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      486
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      490
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      607
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      608
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      611
+     ],
+     [
+      "SOL-016",
+      "src\\processor.rs",
+      784
+     ]
+    ],
+    "rules": [
+     "SOL-004",
+     "SOL-006",
+     "SOL-009",
+     "SOL-010",
+     "SOL-012",
+     "SOL-016",
+     "SOL-025"
+    ]
+   }
+  },
+  {
+   "name": "solido-anker-arbitrary-cpi",
+   "class": "arbitrary-cpi",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\solido-anker-arbitrary-cpi",
+   "mapped_rules": [
+    "SOL-006",
+    "SOL-010"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 6,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-009",
+     "SOL-020",
+     "SOL-022"
+    ]
+   },
+   "secure": {
+    "files": 1,
+    "total": 6,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-009",
+     "SOL-020",
+     "SOL-022"
+    ]
+   }
+  },
+  {
+   "name": "spl-stake-pool-fee-rounding",
+   "class": "arithmetic-rounding-drain",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\spl-stake-pool-fee-rounding",
+   "mapped_rules": [
+    "SOL-004",
+    "SOL-024",
+    "SOL-025"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 19,
+    "on_target": 13,
+    "on_target_lines": [
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1264
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1265
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1340
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1341
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1382
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1383
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1391
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1392
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1414
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1415
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1439
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1440
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1455
+     ]
+    ],
+    "rules": [
+     "SOL-004",
+     "SOL-009",
+     "SOL-020"
+    ]
+   },
+   "secure": {
+    "files": 1,
+    "total": 19,
+    "on_target": 13,
+    "on_target_lines": [
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1268
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1269
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1344
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1345
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1386
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1387
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1395
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1396
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1418
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1419
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1443
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1444
+     ],
+     [
+      "SOL-004",
+      "src\\state.rs",
+      1459
+     ]
+    ],
+    "rules": [
+     "SOL-004",
+     "SOL-009",
+     "SOL-020"
+    ]
+   }
+  },
+  {
+   "name": "token-2022-confidential-approve-mint",
+   "class": "account-data-matching",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\token-2022-confidential-approve-mint",
+   "mapped_rules": [
+    "SOL-002",
+    "SOL-023"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 6,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-009",
+     "SOL-012",
+     "SOL-025",
+     "SOL-028"
+    ]
+   },
+   "secure": {
+    "files": 1,
+    "total": 6,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-009",
+     "SOL-012",
+     "SOL-025",
+     "SOL-028"
+    ]
+   }
+  },
+  {
+   "name": "squads-recursive-execute",
+   "class": "cpi-recursion",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\squads-recursive-execute",
+   "mapped_rules": [
+    "no-rule"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 30,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-009",
+     "SOL-012",
+     "SOL-016"
+    ]
+   },
+   "secure": {
+    "files": 1,
+    "total": 30,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-009",
+     "SOL-012",
+     "SOL-016"
+    ]
+   }
+  },
+  {
+   "name": "spl-stake-pool-mint-decimals",
+   "class": "mint-configuration-validation",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\spl-stake-pool-mint-decimals",
+   "mapped_rules": [
+    "no-rule"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 59,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-009",
+     "SOL-012",
+     "SOL-013",
+     "SOL-016",
+     "SOL-019"
+    ]
+   },
+   "secure": {
+    "files": 1,
+    "total": 59,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-009",
+     "SOL-012",
+     "SOL-013",
+     "SOL-016",
+     "SOL-019"
+    ]
+   }
+  },
+  {
+   "name": "anchor-account-reload-owner",
+   "class": "owner-check-after-cpi",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\anchor-account-reload-owner",
+   "mapped_rules": [
+    "SOL-026"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 0,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": []
+   },
+   "secure": {
+    "files": 1,
+    "total": 0,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": []
+   }
   }
  ],
- "nominal": 2,
+ "nominal": 4,
  "real": 0,
- "scored": 8
+ "scored": 16
 }

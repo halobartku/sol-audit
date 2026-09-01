@@ -52,9 +52,11 @@ how much to trust a finding
     shape      the construct itself is the defect, so there is no check to look for.
                Correct, but blind to context. Most of the noise lives here.
     heuristic  often wrong, sometimes right. Off unless you ask for it.
-  --profile strict  = guarded only            (quietest)
-  --profile default = guarded + shape         (the default)
-  --profile all     = everything              (loudest)
+  --profile strict  = guarded only        THE DEFAULT, and the quietest
+  --profile broad   = guarded + shape     adds lint-grade rules: arithmetic, unwrap, unsafe
+  --profile all     = everything          adds the heuristics, roughly doubles the output
+  strict and all reach the same measured recall on the teaching corpus, and strict produces
+  about half the findings on third-party code. That is why strict is the default.
 
 measured effectiveness
   This scanner's recall and its false-positive rate are both measured and published in
@@ -63,15 +65,15 @@ measured effectiveness
 
 examples
   python cli.py ./programs
-  python cli.py ./programs --profile strict --format json --out findings.json
+  python cli.py ./programs --profile broad --format json --out findings.json
   python cli.py ./programs --category authorization,cpi --min-severity HIGH
   python cli.py ./programs --exclude-rule SOL-004,SOL-009
   python cli.py --list-rules
 """)
     p.add_argument("path", nargs="?",
                    help="directory to scan recursively, or a single .rs file")
-    p.add_argument("--profile", default="default", choices=sorted(scanner.PROFILES),
-                   help="which kinds of rule to run (default: default)")
+    p.add_argument("--profile", default="strict", choices=sorted(scanner.PROFILES),
+                   help="which kinds of rule to run (default: strict)")
     p.add_argument("--category", metavar="A,B",
                    help="run only these categories: " + ", ".join(scanner.CATEGORIES))
     p.add_argument("--exclude-category", metavar="A,B",

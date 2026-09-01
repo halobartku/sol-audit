@@ -50,11 +50,19 @@ GUARDS = {
         r"\bInterfaceAccount::try_from\s*\(",
         r"\bassert_owned_by\s*\(",
         r"\bcheck_account_owner\s*\(",
+        r"\.owner\s*,\s*&?\s*\w+::id\(\)",
     ],
     # Comparing a program account's key against a known program id before a CPI.
     "program_id": [
         r"(!=|==)\s*&?\s*\w+::ID\b",
         r"\b\w+::ID\s*(!=|==)",
+        # `spl_token::id()` is the older SPL convention for the same constant and is still the
+        # dominant form: 38 comparisons against a `::id()` in solana-program-library today
+        # against far fewer against a `::ID`. Missing it meant every program written in that
+        # style looked to this scanner like it never checked a program id at all.
+        r"(!=|==)\s*&?\s*\w+::id\(\)",
+        r"\b\w+::id\(\)\s*(!=|==)",
+        r"require_keys_eq!\s*\([^)]*::id\(\)",
         r"require_keys_eq!\s*\([^)]*(program|ID)",
         r"IncorrectProgramId",
         r"\bProgram\s*<\s*'\w+\s*,",
@@ -68,7 +76,6 @@ GUARDS = {
         r"require(_keys)?_neq!",
         r"constraint\s*=\s*[^,)]*!=",
     ],
-    # Properly closing an account: mark it closed and drain it, or use Anchor's `close =`.
     # Properly closing an account. Per the Solana Foundation program-security course, a secure close
     # is THREE things: move the lamports out, zero the data, and write a closed discriminator.
     # `**account.lamports.borrow_mut() = 0` on its own is the *vulnerable* construct, not a guard:
@@ -186,6 +193,7 @@ def demo():
     assert has_guard(guarded, "signer")
 
     assert missing("invoke(&ix, accounts)?;", "program_id")
+    assert has_guard("if token_program.key != &spl_token::id() { return Err(e); }", "program_id")
     assert has_guard("if &spl_token::ID != ctx.accounts.token_program.key { return Err(e); }",
                      "program_id")
 

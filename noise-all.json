@@ -1,0 +1,563 @@
+{
+ "profile": "all",
+ "rules_run": 30,
+ "fixed_variants": [
+  {
+   "corpus": 1,
+   "case": "0-signer-authorization",
+   "variant": "secure",
+   "files": 1,
+   "total": 1,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-002": 1
+   }
+  },
+  {
+   "corpus": 1,
+   "case": "0-signer-authorization",
+   "variant": "recommended",
+   "files": 1,
+   "total": 0,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {}
+  },
+  {
+   "corpus": 1,
+   "case": "1-account-data-matching",
+   "variant": "secure",
+   "files": 1,
+   "total": 2,
+   "same_class_fp": 1,
+   "same_class_rules": [
+    "SOL-002"
+   ],
+   "by_rule": {
+    "SOL-022": 1,
+    "SOL-002": 1
+   }
+  },
+  {
+   "corpus": 1,
+   "case": "1-account-data-matching",
+   "variant": "recommended",
+   "files": 1,
+   "total": 0,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {}
+  },
+  {
+   "corpus": 1,
+   "case": "10-sysvar-address-checking",
+   "variant": "secure",
+   "files": 1,
+   "total": 1,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-002": 1
+   }
+  },
+  {
+   "corpus": 1,
+   "case": "10-sysvar-address-checking",
+   "variant": "recommended",
+   "files": 1,
+   "total": 0,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {}
+  },
+  {
+   "corpus": 1,
+   "case": "2-owner-checks",
+   "variant": "secure",
+   "files": 1,
+   "total": 1,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-022": 1
+   }
+  },
+  {
+   "corpus": 1,
+   "case": "2-owner-checks",
+   "variant": "recommended",
+   "files": 1,
+   "total": 0,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {}
+  },
+  {
+   "corpus": 1,
+   "case": "3-type-cosplay",
+   "variant": "secure",
+   "files": 1,
+   "total": 0,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {}
+  },
+  {
+   "corpus": 1,
+   "case": "3-type-cosplay",
+   "variant": "recommended",
+   "files": 1,
+   "total": 0,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {}
+  },
+  {
+   "corpus": 1,
+   "case": "4-initialization",
+   "variant": "secure",
+   "files": 1,
+   "total": 3,
+   "same_class_fp": 1,
+   "same_class_rules": [
+    "SOL-028"
+   ],
+   "by_rule": {
+    "SOL-028": 1,
+    "SOL-002": 1,
+    "SOL-009": 1
+   }
+  },
+  {
+   "corpus": 1,
+   "case": "4-initialization",
+   "variant": "recommended",
+   "files": 1,
+   "total": 0,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {}
+  },
+  {
+   "corpus": 1,
+   "case": "5-arbitrary-cpi",
+   "variant": "secure",
+   "files": 1,
+   "total": 5,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-001": 1,
+    "SOL-002": 4
+   }
+  },
+  {
+   "corpus": 1,
+   "case": "5-arbitrary-cpi",
+   "variant": "recommended",
+   "files": 1,
+   "total": 1,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-012": 1
+   }
+  },
+  {
+   "corpus": 1,
+   "case": "6-duplicate-mutable-accounts",
+   "variant": "secure",
+   "files": 1,
+   "total": 0,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {}
+  },
+  {
+   "corpus": 1,
+   "case": "6-duplicate-mutable-accounts",
+   "variant": "recommended",
+   "files": 1,
+   "total": 0,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {}
+  },
+  {
+   "corpus": 1,
+   "case": "7-bump-seed-canonicalization",
+   "variant": "secure",
+   "files": 1,
+   "total": 0,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {}
+  },
+  {
+   "corpus": 1,
+   "case": "7-bump-seed-canonicalization",
+   "variant": "recommended",
+   "files": 1,
+   "total": 1,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-016": 1
+   }
+  },
+  {
+   "corpus": 1,
+   "case": "8-pda-sharing",
+   "variant": "secure",
+   "files": 1,
+   "total": 3,
+   "same_class_fp": 2,
+   "same_class_rules": [
+    "SOL-016"
+   ],
+   "by_rule": {
+    "SOL-012": 1,
+    "SOL-016": 2
+   }
+  },
+  {
+   "corpus": 1,
+   "case": "8-pda-sharing",
+   "variant": "recommended",
+   "files": 1,
+   "total": 4,
+   "same_class_fp": 3,
+   "same_class_rules": [
+    "SOL-016"
+   ],
+   "by_rule": {
+    "SOL-012": 1,
+    "SOL-016": 3
+   }
+  },
+  {
+   "corpus": 1,
+   "case": "9-closing-accounts",
+   "variant": "secure",
+   "files": 1,
+   "total": 3,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-009": 3
+   }
+  },
+  {
+   "corpus": 1,
+   "case": "9-closing-accounts",
+   "variant": "recommended",
+   "files": 1,
+   "total": 0,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {}
+  },
+  {
+   "corpus": 2,
+   "case": "wormhole-sysvar",
+   "variant": "secure",
+   "files": 1,
+   "total": 7,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-004": 7
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "solend-owner-checks",
+   "variant": "secure",
+   "files": 1,
+   "total": 74,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-013": 4,
+    "SOL-010": 5,
+    "SOL-008": 8,
+    "SOL-025": 2,
+    "SOL-012": 2,
+    "SOL-004": 5,
+    "SOL-019": 2,
+    "SOL-016": 45,
+    "SOL-009": 1
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "squads-signer-auth",
+   "variant": "secure",
+   "files": 1,
+   "total": 29,
+   "same_class_fp": 2,
+   "same_class_rules": [
+    "SOL-007"
+   ],
+   "by_rule": {
+    "SOL-007": 2,
+    "SOL-012": 1,
+    "SOL-009": 5,
+    "SOL-016": 21
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "squads-account-matching",
+   "variant": "secure",
+   "files": 1,
+   "total": 29,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-007": 2,
+    "SOL-012": 1,
+    "SOL-009": 5,
+    "SOL-016": 21
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "metaplex-token-metadata",
+   "variant": "secure",
+   "files": 1,
+   "total": 6,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-022": 1,
+    "SOL-027": 1,
+    "SOL-016": 1,
+    "SOL-009": 3
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "metaplex-candy-machine",
+   "variant": "secure",
+   "files": 1,
+   "total": 9,
+   "same_class_fp": 2,
+   "same_class_rules": [
+    "SOL-027"
+   ],
+   "by_rule": {
+    "SOL-027": 2,
+    "SOL-010": 1,
+    "SOL-019": 1,
+    "SOL-016": 5
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "metaplex-bubblegum-creator",
+   "variant": "secure",
+   "files": 2,
+   "total": 9,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-016": 8,
+    "SOL-009": 1
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "anchor-interface-account",
+   "variant": "secure",
+   "files": 1,
+   "total": 0,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {}
+  },
+  {
+   "corpus": 2,
+   "case": "anchor-program-system",
+   "variant": "secure",
+   "files": 1,
+   "total": 2,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-009": 2
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "solido-deposit-reserve-account",
+   "variant": "secure",
+   "files": 1,
+   "total": 38,
+   "same_class_fp": 18,
+   "same_class_rules": [
+    "SOL-016"
+   ],
+   "by_rule": {
+    "SOL-006": 5,
+    "SOL-010": 5,
+    "SOL-012": 1,
+    "SOL-004": 3,
+    "SOL-025": 1,
+    "SOL-016": 18,
+    "SOL-009": 5
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "solido-anker-arbitrary-cpi",
+   "variant": "secure",
+   "files": 1,
+   "total": 6,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-020": 2,
+    "SOL-022": 1,
+    "SOL-009": 3
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "spl-stake-pool-fee-rounding",
+   "variant": "secure",
+   "files": 1,
+   "total": 19,
+   "same_class_fp": 13,
+   "same_class_rules": [
+    "SOL-004"
+   ],
+   "by_rule": {
+    "SOL-020": 1,
+    "SOL-004": 13,
+    "SOL-009": 5
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "token-2022-confidential-approve-mint",
+   "variant": "secure",
+   "files": 1,
+   "total": 6,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-028": 1,
+    "SOL-012": 3,
+    "SOL-025": 1,
+    "SOL-009": 1
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "squads-recursive-execute",
+   "variant": "secure",
+   "files": 1,
+   "total": 30,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-012": 1,
+    "SOL-009": 5,
+    "SOL-016": 24
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "spl-stake-pool-mint-decimals",
+   "variant": "secure",
+   "files": 1,
+   "total": 59,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {
+    "SOL-013": 10,
+    "SOL-019": 4,
+    "SOL-012": 1,
+    "SOL-016": 39,
+    "SOL-009": 5
+   }
+  },
+  {
+   "corpus": 2,
+   "case": "anchor-account-reload-owner",
+   "variant": "secure",
+   "files": 1,
+   "total": 0,
+   "same_class_fp": 0,
+   "same_class_rules": [],
+   "by_rule": {}
+  }
+ ],
+ "fixed_summary": {
+  "variants": 38,
+  "files": 39,
+  "findings": 348,
+  "same_class_fp": 42,
+  "variants_flagged": 8
+ },
+ "clean": [
+  {
+   "root": "C:/Users/stank/AppData/Local/Temp/claude/D--/a4e769cc-40a1-4cc2-8a83-9cf40dd200b5/scratchpad/program-examples",
+   "files": 460,
+   "lines": 25478,
+   "findings": 613,
+   "by_rule": {
+    "SOL-007": 16,
+    "SOL-022": 17,
+    "SOL-030": 5,
+    "SOL-006": 32,
+    "SOL-010": 32,
+    "SOL-003": 24,
+    "SOL-020": 8,
+    "SOL-005": 1,
+    "SOL-017": 12,
+    "SOL-013": 34,
+    "SOL-023": 6,
+    "SOL-004": 27,
+    "SOL-014": 54,
+    "SOL-008": 2,
+    "SOL-025": 27,
+    "SOL-012": 27,
+    "SOL-029": 17,
+    "SOL-026": 3,
+    "SOL-002": 7,
+    "SOL-009": 69,
+    "SOL-016": 193
+   }
+  },
+  {
+   "root": "C:/Users/stank/AppData/Local/Temp/claude/D--/a4e769cc-40a1-4cc2-8a83-9cf40dd200b5/scratchpad/spl",
+   "files": 216,
+   "lines": 49949,
+   "findings": 737,
+   "by_rule": {
+    "SOL-013": 63,
+    "SOL-022": 8,
+    "SOL-006": 22,
+    "SOL-010": 37,
+    "SOL-020": 3,
+    "SOL-030": 2,
+    "SOL-007": 9,
+    "SOL-005": 1,
+    "SOL-028": 2,
+    "SOL-001": 2,
+    "SOL-004": 38,
+    "SOL-025": 7,
+    "SOL-008": 12,
+    "SOL-012": 16,
+    "SOL-014": 14,
+    "SOL-024": 3,
+    "SOL-019": 2,
+    "SOL-009": 219,
+    "SOL-016": 277
+   }
+  }
+ ]
+}

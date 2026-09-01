@@ -23,7 +23,7 @@ import mapping  # noqa: E402
 import scanner  # noqa: E402
 
 CORPUS2 = os.environ.get("CORPUS2", os.path.abspath("../scannertruth/corpus2"))
-PROFILE = os.environ.get("PROFILE", "all")
+PROFILE = os.environ.get("PROFILE", "strict")
 OUT = os.environ.get("OUT", "bench2-out.json")
 
 # PRE-REGISTERED. Derived from each rule's own title in scanner.RULES, matched against the class

@@ -27,7 +27,7 @@ NO_RULE = {k for k, v in MAP.items() if not v}
 
 # Which rules run. `all` keeps continuity with the published v2 number, which was measured with
 # every rule enabled. PROFILE=strict re-runs the same protocol with the guard-aware rules only.
-PROFILE = os.environ.get("PROFILE", "all")
+PROFILE = os.environ.get("PROFILE", "strict")
 RULE_SET = scanner.select_rules(PROFILE)
 
 def matches(rule_id, keys):

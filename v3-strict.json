@@ -222,8 +222,8 @@
  {
   "class": "9-closing-accounts",
   "insecure": {
-   "total": 2,
-   "on_target": 2,
+   "total": 1,
+   "on_target": 1,
    "rules": [
     "SOL-018"
    ]

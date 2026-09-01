@@ -1,5 +1,5 @@
-{"leaf": "wormhole-sysvar/insecure", "status": "ok", "files": 1, "findings": 9, "on_target": 0}
-{"leaf": "wormhole-sysvar/secure", "status": "ok", "files": 1, "findings": 9, "on_target": 0}
+{"leaf": "wormhole-sysvar/insecure", "status": "ok", "files": 1, "findings": 7, "on_target": 0}
+{"leaf": "wormhole-sysvar/secure", "status": "ok", "files": 1, "findings": 7, "on_target": 0}
 {"leaf": "cashio-account-data", "status": "excluded", "reason": "NOT A VALID PAIR. Commit 7df65818 does not fix the vulnerability: it adds vipers::invariant!(false, \"temporarily disable"}
 {"leaf": "solend-owner-checks/insecure", "status": "ok", "files": 1, "findings": 74, "on_target": 0}
 {"leaf": "solend-owner-checks/secure", "status": "ok", "files": 1, "findings": 74, "on_target": 0}
@@ -16,3 +16,19 @@
 {"leaf": "metaplex-bubblegum-creator/secure", "status": "ok", "files": 2, "findings": 9, "on_target": 0}
 {"leaf": "anchor-interface-account/insecure", "status": "ok", "files": 1, "findings": 0, "on_target": 0}
 {"leaf": "anchor-interface-account/secure", "status": "ok", "files": 1, "findings": 0, "on_target": 0}
+{"leaf": "anchor-program-system/insecure", "status": "ok", "files": 1, "findings": 0, "on_target": 0}
+{"leaf": "anchor-program-system/secure", "status": "ok", "files": 1, "findings": 2, "on_target": 0}
+{"leaf": "solido-deposit-reserve-account/insecure", "status": "ok", "files": 1, "findings": 38, "on_target": 18}
+{"leaf": "solido-deposit-reserve-account/secure", "status": "ok", "files": 1, "findings": 38, "on_target": 18}
+{"leaf": "solido-anker-arbitrary-cpi/insecure", "status": "ok", "files": 1, "findings": 6, "on_target": 0}
+{"leaf": "solido-anker-arbitrary-cpi/secure", "status": "ok", "files": 1, "findings": 6, "on_target": 0}
+{"leaf": "spl-stake-pool-fee-rounding/insecure", "status": "ok", "files": 1, "findings": 19, "on_target": 13}
+{"leaf": "spl-stake-pool-fee-rounding/secure", "status": "ok", "files": 1, "findings": 19, "on_target": 13}
+{"leaf": "token-2022-confidential-approve-mint/insecure", "status": "ok", "files": 1, "findings": 6, "on_target": 0}
+{"leaf": "token-2022-confidential-approve-mint/secure", "status": "ok", "files": 1, "findings": 6, "on_target": 0}
+{"leaf": "squads-recursive-execute/insecure", "status": "ok", "files": 1, "findings": 30, "on_target": 0}
+{"leaf": "squads-recursive-execute/secure", "status": "ok", "files": 1, "findings": 30, "on_target": 0}
+{"leaf": "spl-stake-pool-mint-decimals/insecure", "status": "ok", "files": 1, "findings": 59, "on_target": 0}
+{"leaf": "spl-stake-pool-mint-decimals/secure", "status": "ok", "files": 1, "findings": 59, "on_target": 0}
+{"leaf": "anchor-account-reload-owner/insecure", "status": "ok", "files": 1, "findings": 0, "on_target": 0}
+{"leaf": "anchor-account-reload-owner/secure", "status": "ok", "files": 1, "findings": 0, "on_target": 0}

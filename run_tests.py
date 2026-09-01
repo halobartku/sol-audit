@@ -125,8 +125,10 @@ def test_suppression():
 def test_rule_selection():
     check("strict profile is guarded only",
           all(scanner.kind_of(r[0]) == "guarded" for r in scanner.select_rules("strict")))
-    check("default profile excludes heuristics",
-          all(scanner.kind_of(r[0]) != "heuristic" for r in scanner.select_rules("default")))
+    check("broad profile excludes heuristics",
+          all(scanner.kind_of(r[0]) != "heuristic" for r in scanner.select_rules("broad")))
+    check("strict is the default profile",
+          scanner.select_rules() == scanner.select_rules("strict"))
     check("all profile is every rule",
           len(scanner.select_rules("all")) == len(scanner.RULES))
     check("category filter works",
