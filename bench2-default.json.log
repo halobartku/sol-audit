@@ -1,0 +1,18 @@
+{"leaf": "wormhole-sysvar/insecure", "status": "ok", "files": 1, "findings": 9, "on_target": 0}
+{"leaf": "wormhole-sysvar/secure", "status": "ok", "files": 1, "findings": 9, "on_target": 0}
+{"leaf": "cashio-account-data", "status": "excluded", "reason": "NOT A VALID PAIR. Commit 7df65818 does not fix the vulnerability: it adds vipers::invariant!(false, \"temporarily disable"}
+{"leaf": "solend-owner-checks/insecure", "status": "ok", "files": 1, "findings": 15, "on_target": 0}
+{"leaf": "solend-owner-checks/secure", "status": "ok", "files": 1, "findings": 15, "on_target": 0}
+{"leaf": "spl-token-lending-rounding", "status": "not-built", "reason": "no directory in corpus2/"}
+{"leaf": "squads-signer-auth/insecure", "status": "ok", "files": 1, "findings": 7, "on_target": 2}
+{"leaf": "squads-signer-auth/secure", "status": "ok", "files": 1, "findings": 7, "on_target": 2}
+{"leaf": "squads-account-matching/insecure", "status": "ok", "files": 1, "findings": 7, "on_target": 0}
+{"leaf": "squads-account-matching/secure", "status": "ok", "files": 1, "findings": 7, "on_target": 0}
+{"leaf": "metaplex-token-metadata/insecure", "status": "ok", "files": 1, "findings": 5, "on_target": 0}
+{"leaf": "metaplex-token-metadata/secure", "status": "ok", "files": 1, "findings": 5, "on_target": 0}
+{"leaf": "metaplex-candy-machine/insecure", "status": "ok", "files": 1, "findings": 3, "on_target": 1}
+{"leaf": "metaplex-candy-machine/secure", "status": "ok", "files": 1, "findings": 4, "on_target": 2}
+{"leaf": "metaplex-bubblegum-creator/insecure", "status": "ok", "files": 1, "findings": 1, "on_target": 0}
+{"leaf": "metaplex-bubblegum-creator/secure", "status": "ok", "files": 2, "findings": 1, "on_target": 0}
+{"leaf": "anchor-interface-account/insecure", "status": "ok", "files": 1, "findings": 0, "on_target": 0}
+{"leaf": "anchor-interface-account/secure", "status": "ok", "files": 1, "findings": 0, "on_target": 0}

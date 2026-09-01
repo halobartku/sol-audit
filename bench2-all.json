@@ -1,0 +1,326 @@
+{
+ "profile": "all",
+ "corpus": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2",
+ "rows": [
+  {
+   "name": "wormhole-sysvar",
+   "class": "sysvar-address-checking",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\wormhole-sysvar",
+   "mapped_rules": [
+    "SOL-019",
+    "SOL-027"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 9,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-004",
+     "SOL-006",
+     "SOL-010"
+    ]
+   },
+   "secure": {
+    "files": 1,
+    "total": 9,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-004",
+     "SOL-006",
+     "SOL-010"
+    ]
+   }
+  },
+  {
+   "name": "cashio-account-data",
+   "class": "account-data-matching",
+   "status": "excluded",
+   "reason": "NOT A VALID PAIR. Commit 7df65818 does not fix the vulnerability: it adds vipers::invariant!(false, \"temporarily disable"
+  },
+  {
+   "name": "solend-owner-checks",
+   "class": "owner-checks",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\solend-owner-checks",
+   "mapped_rules": [
+    "SOL-002",
+    "SOL-006",
+    "SOL-030"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 74,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-004",
+     "SOL-008",
+     "SOL-009",
+     "SOL-010",
+     "SOL-012",
+     "SOL-013",
+     "SOL-016",
+     "SOL-019",
+     "SOL-025"
+    ]
+   },
+   "secure": {
+    "files": 1,
+    "total": 74,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-004",
+     "SOL-008",
+     "SOL-009",
+     "SOL-010",
+     "SOL-012",
+     "SOL-013",
+     "SOL-016",
+     "SOL-019",
+     "SOL-025"
+    ]
+   }
+  },
+  {
+   "name": "spl-token-lending-rounding",
+   "class": "arithmetic-rounding-drain",
+   "status": "not-built",
+   "reason": "no directory in corpus2/"
+  },
+  {
+   "name": "squads-signer-auth",
+   "class": "signer-authorization",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\squads-signer-auth",
+   "mapped_rules": [
+    "SOL-001",
+    "SOL-007"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 29,
+    "on_target": 2,
+    "on_target_lines": [
+     [
+      "SOL-007",
+      "src\\lib.rs",
+      277
+     ],
+     [
+      "SOL-007",
+      "src\\lib.rs",
+      300
+     ]
+    ],
+    "rules": [
+     "SOL-007",
+     "SOL-009",
+     "SOL-012",
+     "SOL-016"
+    ]
+   },
+   "secure": {
+    "files": 1,
+    "total": 29,
+    "on_target": 2,
+    "on_target_lines": [
+     [
+      "SOL-007",
+      "src\\lib.rs",
+      277
+     ],
+     [
+      "SOL-007",
+      "src\\lib.rs",
+      300
+     ]
+    ],
+    "rules": [
+     "SOL-007",
+     "SOL-009",
+     "SOL-012",
+     "SOL-016"
+    ]
+   }
+  },
+  {
+   "name": "squads-account-matching",
+   "class": "account-data-matching",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\squads-account-matching",
+   "mapped_rules": [
+    "SOL-002",
+    "SOL-023"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 29,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-007",
+     "SOL-009",
+     "SOL-012",
+     "SOL-016"
+    ]
+   },
+   "secure": {
+    "files": 1,
+    "total": 29,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-007",
+     "SOL-009",
+     "SOL-012",
+     "SOL-016"
+    ]
+   }
+  },
+  {
+   "name": "metaplex-token-metadata",
+   "class": "account-data-matching",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\metaplex-token-metadata",
+   "mapped_rules": [
+    "SOL-002",
+    "SOL-023"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 6,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-009",
+     "SOL-016",
+     "SOL-022",
+     "SOL-027"
+    ]
+   },
+   "secure": {
+    "files": 1,
+    "total": 6,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-009",
+     "SOL-016",
+     "SOL-022",
+     "SOL-027"
+    ]
+   }
+  },
+  {
+   "name": "metaplex-candy-machine",
+   "class": "instruction-introspection",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\metaplex-candy-machine",
+   "mapped_rules": [
+    "SOL-027"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 8,
+    "on_target": 1,
+    "on_target_lines": [
+     [
+      "SOL-027",
+      "src\\set_collection_during_mint.rs",
+      43
+     ]
+    ],
+    "rules": [
+     "SOL-010",
+     "SOL-016",
+     "SOL-019",
+     "SOL-027"
+    ]
+   },
+   "secure": {
+    "files": 1,
+    "total": 9,
+    "on_target": 2,
+    "on_target_lines": [
+     [
+      "SOL-027",
+      "src\\set_collection_during_mint.rs",
+      43
+     ],
+     [
+      "SOL-027",
+      "src\\set_collection_during_mint.rs",
+      51
+     ]
+    ],
+    "rules": [
+     "SOL-010",
+     "SOL-016",
+     "SOL-019",
+     "SOL-027"
+    ]
+   }
+  },
+  {
+   "name": "metaplex-bubblegum-creator",
+   "class": "signer-authorization",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\metaplex-bubblegum-creator",
+   "mapped_rules": [
+    "SOL-001",
+    "SOL-007"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 7,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-009",
+     "SOL-016"
+    ]
+   },
+   "secure": {
+    "files": 2,
+    "total": 9,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": [
+     "SOL-009",
+     "SOL-016"
+    ]
+   }
+  },
+  {
+   "name": "anchor-interface-account",
+   "class": "type-cosplay",
+   "status": "built",
+   "dir": "D:/Users/stank/Desktop/Forge/scannertruth/corpus2\\anchor-interface-account",
+   "mapped_rules": [
+    "SOL-002",
+    "SOL-022"
+   ],
+   "insecure": {
+    "files": 1,
+    "total": 0,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": []
+   },
+   "secure": {
+    "files": 1,
+    "total": 0,
+    "on_target": 0,
+    "on_target_lines": [],
+    "rules": []
+   }
+  }
+ ],
+ "nominal": 2,
+ "real": 0,
+ "scored": 8
+}

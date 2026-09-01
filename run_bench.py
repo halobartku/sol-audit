@@ -8,6 +8,7 @@ import json, os, re, subprocess, sys
 
 CORPUS = os.environ.get("CORPUS", os.path.abspath("../sealevel-attacks/programs"))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import mapping  # noqa: E402
 import scanner  # noqa: E402
 
 # FIXED BEFORE RUNNING - see PROTOCOL.md. Do not widen these to rescue a result.
@@ -21,19 +22,7 @@ import scanner  # noqa: E402
 # v3 additions below are derived the same way, from each new rule's own title and docstring, and
 # were committed before the run that scored them. Adding a rule id here because it turned out to
 # fire would invert the whole procedure.
-MAP = {
-    "0-signer-authorization":       ["SOL-001", "SOL-007"],   # UncheckedAccount w/o Signer; next_account_info w/o is_signer
-    "1-account-data-matching":      ["SOL-002", "SOL-023"],   # raw AccountInfo, no owner/type validation; authority field never compared
-    "2-owner-checks":               ["SOL-002", "SOL-006", "SOL-030"],  # no owner validation; raw CPI w/o owner check; native unpack w/o owner
-    "3-type-cosplay":               ["SOL-002", "SOL-022"],   # no type validation via deserialization; no discriminator
-    "4-initialization":             ["SOL-003", "SOL-015", "SOL-028"],  # init_if_needed reinit; init without space; no initialised flag
-    "5-arbitrary-cpi":              ["SOL-010", "SOL-006"],   # invoke() with program from accounts
-    "6-duplicate-mutable-accounts": ["SOL-017"],              # v2: added
-    "7-bump-seed-canonicalization": ["SOL-011", "SOL-020", "SOL-021"],  # bump stored and trusted; create_program_address; caller-chosen bump
-    "8-pda-sharing":                ["SOL-016", "SOL-008"],   # PDA seeds not namespaced; dynamic seed material
-    "9-closing-accounts":           ["SOL-018"],              # v2: added
-    "10-sysvar-address-checking":   ["SOL-019", "SOL-027"],   # sysvar never validated; introspected instruction never attributed
-}
+MAP = mapping.CORPUS1
 NO_RULE = {k for k, v in MAP.items() if not v}
 
 # Which rules run. `all` keeps continuity with the published v2 number, which was measured with

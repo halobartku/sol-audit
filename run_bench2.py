@@ -19,6 +19,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import mapping  # noqa: E402
 import scanner  # noqa: E402
 
 CORPUS2 = os.environ.get("CORPUS2", os.path.abspath("../scannertruth/corpus2"))
@@ -34,15 +35,7 @@ OUT = os.environ.get("OUT", "bench2-out.json")
 # which side of the trade benefits, and that is semantic. SOL-024 catches the neighbouring defect
 # (dividing before multiplying), not the one this case actually is. It is mapped anyway so the
 # class appears in the denominator rather than being quietly dropped.
-MAP = {
-    "signer-authorization":      ["SOL-001", "SOL-007"],
-    "owner-checks":              ["SOL-002", "SOL-006", "SOL-030"],
-    "account-data-matching":     ["SOL-002", "SOL-023"],
-    "type-cosplay":              ["SOL-002", "SOL-022"],
-    "sysvar-address-checking":   ["SOL-019", "SOL-027"],
-    "instruction-introspection": ["SOL-027"],
-    "arithmetic-rounding-drain": ["SOL-004", "SOL-024", "SOL-025"],
-}
+MAP = mapping.CORPUS2
 
 
 def load_cases():
